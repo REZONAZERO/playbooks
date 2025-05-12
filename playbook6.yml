@@ -1,0 +1,16 @@
+---
+
+ - name: "PURGE old Docker + install fresh"
+   hosts: all
+   become: yes
+   tasks:
+     - name: "Remove Docker"
+       apt:
+         name: "docker-ce,docker-ce-cli,containerd.io"
+         state: absent
+         purge: yes      # config also
+
+     - name: "Install fresh Docker"
+       shell: |
+         curl -fsSL https://get.docker.com | sh
+         usermod -aG docker $USER
