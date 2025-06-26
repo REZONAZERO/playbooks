@@ -1,0 +1,19 @@
+---
+
+ - name: "Hunt 777 files"
+   hosts: all
+   become: yes
+   vars:
+     danger_zone: "/" 
+   tasks:
+   	- name: "Looking for 777 files..."
+   	  find:
+   	    paths: "{{ danger_zone }}"
+   	    recurse: yes
+   	    depth: 5
+   	    mode: "u=rwwx g=rwwx o=rwwx"
+   	  register: rogue_files
+   	  ignore_errors: true
+   	  
+   	- name: "Print output:"
+   	  debug: var: rogue_files.stdout
